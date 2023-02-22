@@ -2,7 +2,7 @@
 
 - JavaScript
 - Axios HTTP
--[quizapi.io](https://quizapi.io)
+- [quizapi.io](https://quizapi.io)
 
 ---
 
