@@ -61,6 +61,7 @@ select{
   border: 1px solid var(--primaryColor);
   color: var(--primaryColor);
   border-radius: 5px;
+  background-color: #fff;
 }
 .home__numberOfQuestion div{
   display: flex;
