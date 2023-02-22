@@ -190,16 +190,15 @@ progress::-webkit-progress-value {
   margin-top: 5px;
   cursor: pointer;
 }
+.choice:hover .choice-text {
+  background-color: #dbeafe;
+}
 .choice.correct-answer > :last-child {
   background-color: var(--CorrectAnswerColor);
 }
 .choice.incorrect-answer > :last-child {
   background-color: var(--inCorrectAnswerColor);
 }
-.choice:hover .choice-text {
-  background-color: #dbeafe;
-}
-
 .choice.incorrect-answer .choice-text,
 .choice.correct-answer .choice-text {
   transition: none !important;
