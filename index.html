@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="./assets/img/quiz.png">
+    <title>Quiz App</title>
+    <link rel="stylesheet" href="./src/css/style.css" />
+  </head>
+  <body>
+    <div class="home container">
+      <h1 class="home__title">Quiz App</h1>
+      <div class="question-format">
+        <div class="catagory">
+          <label for="category">Select Category</label
+          ><select name="category" id="category">
+            <option value="linux">Linux</option>
+            <option value="SQL">SQL</option>
+            <option value="Docker">Docker</option>
+            <option value="DevOps">DevOps</option>
+          </select>
+        </div>
+        <div class="difficulty">
+          <label for="difficulty-level">Select Questions Level</label
+          ><select name="difficulty" id="difficulty-level">
+            <option value="Easy">Easy</option>
+            <option value="Medium">Medium</option>
+            <option value="Hard">Hard</option>
+          </select>
+        </div>
+        <div class="home__numberOfQuestion">
+          <label for="">Number Of Questions</label>
+          <div>
+            <input
+              type="range"
+              name="limit"
+              value="5"
+              min="1"
+              max="20"
+              id="limit-input"
+              oninput="limitOutput.value=value"
+            />
+            <output id="limitOutput">5</output>
+          </div>
+        </div>
+      </div>
+      <div class="home__btn">
+        <button class="play-btn">Play</button>
+      </div>
+    </div>
+
+    <!-- <div class="container"> -->
+    <div class="quiz-container container">
+      <div class="quiz-header">
+        <div class="quiz-details">
+          <div class="numberOfQuestion">
+            <h5></h5>
+            <progress class="progress-bar" value="0" max="0" />
+          </div>
+          <div class="score">
+            <h4>score</h4>
+            <span class="score-value">0</span>
+          </div>
+        </div>
+        <div class="time-progress"></div>
+      </div>
+
+      <div class="quiz-body">
+        <!-- <div class="quiz-question">
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ratione enim
+          eius maiores dignissimos, labore officiis corporis?
+        </div>
+        <div class="quiz-choices">
+          <div class="choice">
+            <p class="choice-number">A</p>
+            <p class="choice-text">true</p>
+          </div>
+          <div class="choice">
+            <p class="choice-number">B</p>
+            <p class="choice-text">sround</p>
+          </div>
+          <div class="choice">
+            <div class="choice-number">C</div>
+            <p class="choice-text">
+              Lorem ipsum dolor sit amet. Lorem ipsum, dolor sit amet
+              consectetur adipisicing elit. Voluptatibus aliquid laboriosam
+              alias qui odit voluptate illum? Fugiat rem error eum.
+            </p>
+          </div>
+          <div class="choice">
+            <p class="choice-number">D</p>
+            <p class="choice-text">Lorem ipsum</p>
+          </div>
+        </div> -->
+      </div>
+    </div>
+    <!-- </div> -->
+    <div class="loading"></div>
+
+    <div class="after-quiz container">
+      <h1></h1>
+      <div class="btns">
+        <button class="play-again-btn">Play Again</button>
+        <button class="go-home-btn">Go Home</button>
+      </div>
+    </div>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+    <script src="./src/js/app.js"></script>
+  </body>
+</html>
