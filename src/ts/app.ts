@@ -1,3 +1,45 @@
+import axios from "axios";
+
+interface QuestionDetails {
+  category: string;
+  difficulty: string;
+  limit: string;
+}
+interface Data {
+  id: number;
+  question: string;
+  description: string | null;
+  answers: {
+    answer_a: string | null;
+    answer_b: string | null;
+    answer_c: string | null;
+    answer_d: string | null;
+    answer_e: string | null;
+    answer_f: string | null;
+  };
+  multiple_correct_answers: string | null;
+  correct_answers: {
+    answer_a_correct: string;
+    answer_b_correct: string;
+    answer_c_correct: string;
+    answer_d_correct: string;
+    answer_e_correct: string;
+    answer_f_correct: string;
+  };
+  correct_answer: string | null;
+  explanation: string | null;
+  tip: string | null;
+  tags: [
+    {
+      name: string;
+    }
+  ];
+  category: string;
+  difficulty: string;
+}
+
+type QuestionData = Data[];
+
 const apiKey = "yAttkaFz2t6M7aAMcw37LJdaXUGViToysokNGMpn";
 
 // 1. fetch
@@ -9,206 +51,46 @@ const apiKey = "yAttkaFz2t6M7aAMcw37LJdaXUGViToysokNGMpn";
 // 7. timeout
 // 8. choiceClicked
 
-const quizBody = document.querySelector(".quiz-body");
-const scoreValue = document.querySelector(".score-value");
-const progressBar = document.querySelector(".progress-bar");
-const numberOfQuestionTitle = document.querySelector(".numberOfQuestion > h5");
-const timeProgress = document.querySelector(".time-progress");
-const loading = document.querySelector(".loading");
-const quizContainer = document.querySelector(".quiz-container");
-const playBtn = document.querySelector(".play-btn");
-const home = document.querySelector(".home");
-const category = document.querySelector("#category");
-const difficultyLevel = document.querySelector("#difficulty-level");
-const limitInput = document.querySelector("#limit-input");
-const playAgainBtn = document.querySelector(".play-again-btn");
-const goHomeBtn = document.querySelector(".go-home-btn");
-const afterQuiz = document.querySelector(".after-quiz");
-const afterQuizTitleScore = document.querySelector(".after-quiz h1");
+const quizBody = document.querySelector(".quiz-body") as HTMLDivElement;
+const scoreValue = document.querySelector(".score-value") as HTMLSpanElement;
+const progressBar = document.querySelector(
+  ".progress-bar"
+) as HTMLProgressElement;
+const numberOfQuestionTitle = document.querySelector(
+  ".numberOfQuestion > h5"
+) as HTMLHeadingElement;
+const timeProgress = document.querySelector(".time-progress") as HTMLDivElement;
+const loading = document.querySelector(".loading") as HTMLDivElement;
+const quizContainer = document.querySelector(".quiz-container") as HTMLDivElement;
+const playBtn = document.querySelector(".play-btn") as HTMLButtonElement;
+const home = document.querySelector(".home") as HTMLDivElement;
+const category = document.querySelector("#category") as HTMLSelectElement;
+const difficultyLevel = document.querySelector("#difficulty-level") as HTMLSelectElement;
+const limitInput = document.querySelector("#limit-input") as HTMLInputElement;
+const playAgainBtn = document.querySelector(".play-again-btn") as HTMLButtonElement;
+const goHomeBtn = document.querySelector(".go-home-btn") as HTMLButtonElement;
+const afterQuiz = document.querySelector(".after-quiz")as HTMLDivElement;
+const afterQuizTitleScore = document.querySelector(
+  ".after-quiz h1"
+) as HTMLHeadingElement;
 
-// let questionsData = [];
-let questionsData = [
-  {
-    id: 823,
-    question: "BASH stands for:",
-    description: null,
-    answers: {
-      answer_a: "Bourne Again SHell",
-      answer_b: "BAsic SHell",
-      answer_c: "Basic Async SHell",
-      answer_d: null,
-      answer_e: null,
-      answer_f: null,
-    },
-    multiple_correct_answers: "false",
-    correct_answers: {
-      answer_a_correct: "true",
-      answer_b_correct: "false",
-      answer_c_correct: "false",
-      answer_d_correct: "false",
-      answer_e_correct: "false",
-      answer_f_correct: "false",
-    },
-    correct_answer: null,
-    explanation: null,
-    tip: null,
-    tags: [
-      {
-        name: "BASH",
-      },
-    ],
-    category: "Linux",
-    difficulty: "Easy",
-  },
-  {
-    id: 702,
-    question:
-      "Which command can be used to display basic information about your server?",
-    description: null,
-    answers: {
-      answer_a: "uname",
-      answer_b: "info",
-      answer_c: "ls",
-      answer_d: "show",
-      answer_e: null,
-      answer_f: null,
-    },
-    multiple_correct_answers: "false",
-    correct_answers: {
-      answer_a_correct: "true",
-      answer_b_correct: "false",
-      answer_c_correct: "false",
-      answer_d_correct: "false",
-      answer_e_correct: "false",
-      answer_f_correct: "false",
-    },
-    correct_answer: null,
-    explanation: null,
-    tip: null,
-    tags: [
-      {
-        name: "Linux",
-      },
-    ],
-    category: "Linux",
-    difficulty: "Easy",
-  },
-  {
-    id: 748,
-    question: "The API server is also known as:",
-    description: null,
-    answers: {
-      answer_a: "kubeapi",
-      answer_b: "kube-server",
-      answer_c: "k8s-apiserver",
-      answer_d: "kube-apiserver",
-      answer_e: null,
-      answer_f: null,
-    },
-    multiple_correct_answers: "false",
-    correct_answers: {
-      answer_a_correct: "false",
-      answer_b_correct: "false",
-      answer_c_correct: "false",
-      answer_d_correct: "true",
-      answer_e_correct: "false",
-      answer_f_correct: "false",
-    },
-    correct_answer: "answer_a",
-    explanation: null,
-    tip: null,
-    tags: [
-      {
-        name: "Kubernetes",
-      },
-    ],
-    category: "Linux",
-    difficulty: "Easy",
-  },
-  {
-    id: 690,
-    question:
-      "How can we list out all currently executing background processes?",
-    description: null,
-    answers: {
-      answer_a: "ps -e",
-      answer_b: "top",
-      answer_c: "ps faux",
-      answer_d: "proccess -aux",
-      answer_e: null,
-      answer_f: null,
-    },
-    multiple_correct_answers: "false",
-    correct_answers: {
-      answer_a_correct: "true",
-      answer_b_correct: "false",
-      answer_c_correct: "false",
-      answer_d_correct: "false",
-      answer_e_correct: "false",
-      answer_f_correct: "false",
-    },
-    correct_answer: null,
-    explanation: null,
-    tip: null,
-    tags: [
-      {
-        name: "BASH",
-      },
-      {
-        name: "Linux",
-      },
-    ],
-    category: "Linux",
-    difficulty: "Easy",
-  },
-  {
-    id: 1077,
-    question:
-      "You are logged in as a normal user and you see a file with 444(-r--r--r--) permission. Can you delete it with the `rm` command?",
-    description: null,
-    answers: {
-      answer_a:
-        "We can't be certain, it depends on the permissions of the parent folder",
-      answer_b: "Yes, can delete it without a problem",
-      answer_c: "No, we don't have the proper permissions",
-      answer_d: "We can delete it only from the GUI but not from CLI.",
-      answer_e: null,
-      answer_f: null,
-    },
-    multiple_correct_answers: "false",
-    correct_answers: {
-      answer_a_correct: "true",
-      answer_b_correct: "false",
-      answer_c_correct: "false",
-      answer_d_correct: "false",
-      answer_e_correct: "false",
-      answer_f_correct: "false",
-    },
-    correct_answer: null,
-    explanation: null,
-    tip: null,
-    tags: [
-      {
-        name: "Linux",
-      },
-    ],
-    category: "Linux",
-    difficulty: "Easy",
-  },
-];
-let score = 0;
-let count = 0;
-let time = 0;
-let timeInterval = null;
-let choices = null;
-let questionDetails = { category: "Linux", difficulty: "Easy", limit: 5 };
+let questionsData: QuestionData = [];
+let score: number = 0;
+let count: number = 0;
+let timer: number = 0;
+let timeInterval: NodeJS.Timer;
+let questionDetails: QuestionDetails = {
+  category: "Linux",
+  difficulty: "Easy",
+  limit: "5",
+};
 
 category.addEventListener("change", (e) => changeQuestionDetails(e));
 difficultyLevel.addEventListener("change", (e) => changeQuestionDetails(e));
 limitInput.addEventListener("change", (e) => changeQuestionDetails(e));
 
-function changeQuestionDetails(e) {
-  const { name, value } = e.target;
+function changeQuestionDetails(e: Event) {
+  const { name, value } = e.target as HTMLInputElement | HTMLSelectElement;
   questionDetails = { ...questionDetails, [name]: value };
 }
 
@@ -225,12 +107,11 @@ goHomeBtn.addEventListener("click", () => {
   afterQuiz.classList.remove("active");
 });
 
-async function getQuestions({ category, difficulty, limit }) {
+async function getQuestions(questionDetails: QuestionDetails) {
   displayLoading();
-  const url = `https://quizapi.io/api/v1/questions?apiKey=${apiKey}&category=${category}&difficulty=${difficulty}&limit=${limit}`;
-  // const url = `https://quizapi.io/api/v1/questions?apiKey=${apiKey}&category=sql&difficulty=easy&limit=15`;
+  const url = `https://quizapi.io/api/v1/questions?apiKey=${apiKey}&category=${questionDetails.category}&difficulty=${questionDetails.difficulty}&limit=${questionDetails.limit}`;
   try {
-    const { data } = await axios.get(url);
+    const { data } = await axios.get<QuestionData>(url);
     hideLoading();
     quizContainer.classList.add("active");
     questionsData = data;
@@ -242,6 +123,7 @@ async function getQuestions({ category, difficulty, limit }) {
 }
 function questionHtmlDOM() {
   const currentQuestion = questionsData[count];
+  const {answer_a, answer_b, answer_c, answer_d} = currentQuestion.answers;
 
   quizBody.innerHTML = `<div class="quiz-question">${
     currentQuestion.multiple_correct_answers === "true"
@@ -250,35 +132,35 @@ function questionHtmlDOM() {
   }</div>
   <div class="quiz-choices">
     <div class="choice ${
-      !currentQuestion.answers.answer_a ? "unChoice" : ""
-    }" data-correctAnswer="answer_a_correct">
+      !answer_a ? "unChoice" : ""
+    }" data-correctanswer="answer_a_correct">
       <p class="choice-number">A</p>
       <p class="choice-text">${
-        currentQuestion.answers.answer_a ? currentQuestion.answers.answer_a : ""
+        answer_a ? answer_a : ""
       }</p>
     </div>
     <div class="choice ${
-      !currentQuestion.answers.answer_b ? "unChoice" : ""
-    }" data-correctAnswer="answer_b_correct">
+      !answer_b ? "unChoice" : ""
+    }" data-correctanswer="answer_b_correct">
       <p class="choice-number">B</p>
       <p class="choice-text">${
-        currentQuestion.answers.answer_b ? currentQuestion.answers.answer_b : ""
+        answer_b ? answer_b : ""
       }</p>
     </div>
     <div class="choice ${
-      !currentQuestion.answers.answer_c ? "unChoice" : ""
-    }" data-correctAnswer="answer_c_correct">
+      !answer_c ? "unChoice" : ""
+    }" data-correctanswer="answer_c_correct">
       <p class="choice-number">C</p>
       <p class="choice-text">${
-        currentQuestion.answers.answer_c ? currentQuestion.answers.answer_c : ""
+        answer_c ? answer_c : ""
       }</p>
     </div>
     <div class="choice ${
-      !currentQuestion.answers.answer_d ? "unChoice" : ""
-    }" data-correctAnswer="answer_d_correct">
+      !answer_d ? "unChoice" : ""
+    }" data-correctanswer="answer_d_correct">
       <p class="choice-number">D</p>
       <p class="choice-text">${
-        currentQuestion.answers.answer_d ? currentQuestion.answers.answer_d : ""
+        answer_d ? answer_d : ""
       }</p>
       </div>
       </div>`;
@@ -294,53 +176,57 @@ function renderQuestion() {
   timeInterval = setInterval(timeOut, 1000);
   timeProgress.classList.add("animation");
   numberOfQuestionsFunction();
-  choices = document.querySelectorAll(".choice");
+  const choices = document.querySelectorAll(".choice");
   choices.forEach((item) =>
-    item.addEventListener("click", () => choiceClicked(item))
+    item.addEventListener("click", () => choiceClicked(choices, item))
   );
 }
 
-function choiceClicked(choice) {
+function choiceClicked(choices: NodeListOf<Element>, choice: Element) {
   choices.forEach((item) => item.classList.add("inactive"));
   checkChoices(choice);
   clearInterval(timeInterval);
-  time = 0;
+  timer = 0;
   count++;
   setTimeout(() => {
     renderQuestion();
   }, 2000);
 }
 
-function checkChoices(choice) {
-  const dataCorrectAnswer = choice.dataset.correctanswer;
-  const currentQuestion = questionsData[count];
+function checkChoices(choice: Element) {
   timeProgress.classList.remove("animation");
-  if (currentQuestion.correct_answers[dataCorrectAnswer] === "true") {
+  const dataCorrectAnswer = (choice as HTMLElement).dataset.correctanswer;
+  const currentQuestionAnswer = questionsData[count].correct_answers;
+  type DataKey = keyof typeof currentQuestionAnswer;
+  if (currentQuestionAnswer[dataCorrectAnswer as DataKey] === "true") {
     correctChoice(choice);
   } else {
     inCorrectChoice(choice);
   }
 }
 
-function correctChoice(choice) {
+function correctChoice(choice: Element) {
   choice.classList.add("correct-answer");
-  score++;
-  scoreValue.innerText = score;
+  score += 10;
+  scoreValue.innerText = `${score}`;
 }
 
-function inCorrectChoice(choice) {
+function inCorrectChoice(choice: Element) {
   choice.classList.add("incorrect-answer");
+  const choices = document.querySelectorAll(".choice");
   choices.forEach((item) => {
-    const dataCorrectAnswer = item.dataset.correctanswer;
-    if (questionsData[count].correct_answers[dataCorrectAnswer] === "true") {
+    const dataCorrectAnswer = (item as HTMLElement).dataset.correctanswer;
+    const currentQuestionAnswer = questionsData[count].correct_answers;
+    type DataKey = keyof typeof currentQuestionAnswer;
+    if (currentQuestionAnswer[dataCorrectAnswer as DataKey] === "true") {
       item.classList.add("correct-answer");
     }
   });
 }
 
 function timeOut() {
-  if (time < 4) {
-    time++;
+  if (timer < 4) {
+    timer++;
   } else {
     checkChoicesAfterTimeOut();
   }
@@ -348,14 +234,16 @@ function timeOut() {
 
 function checkChoicesAfterTimeOut() {
   clearInterval(timeInterval);
-  time = 0;
+  timer = 0;
   timeProgress.classList.remove("animation");
+  const choices = document.querySelectorAll(".choice");
   choices.forEach((item) => {
     item.classList.add("inactive");
-    const dataCorrectAnswer = item.dataset.correctanswer;
-    if (questionsData[count].correct_answers[dataCorrectAnswer] === "true") {
+    const dataCorrectAnswer = (item as HTMLElement).dataset.correctanswer;
+    const currentQuestionAnswer = questionsData[count].correct_answers;
+    type DataKey = keyof typeof currentQuestionAnswer;
+    if (currentQuestionAnswer[dataCorrectAnswer as DataKey] === "true") {
       item.classList.add("correct-answer");
-
       setTimeout(() => {
         count++;
         renderQuestion();
@@ -382,8 +270,8 @@ function hideLoading() {
 function endOfQuestions() {
   quizContainer.classList.remove("active");
   afterQuiz.classList.add("active");
-  afterQuizTitleScore.innerText = score;
-  scoreValue.innerText = 0;
+  afterQuizTitleScore.innerText = `${score}`;
+  scoreValue.innerText = "0";
   count = 0;
   score = 0;
 }
