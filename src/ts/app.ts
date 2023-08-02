@@ -78,7 +78,7 @@ let questionsData: QuestionData = [];
 let score: number = 0;
 let count: number = 0;
 let timer: number = 0;
-let timeInterval: number;
+let timeInterval: ReturnType<typeof setInterval>;
 let questionDetails: QuestionDetails = {
   category: "Linux",
   difficulty: "Easy",
