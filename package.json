@@ -1,0 +1,29 @@
+{
+  "name": "quiz-app",
+  "version": "1.0.0",
+  "description": "This is an online testing program that allows users to specify the type and difficulty level of questions, as well as the number of questions. The program provides instantaneous feedback on the correctness or incorrectness of the user's answers, and at the end of the test, displays the final score and an option to restart. It was developed using HTML, CSS, and JavaScript, and features a responsive design",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ahmad-karimigorji/Quiz-APP.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ahmad-karimigorji/Quiz-APP/issues"
+  },
+  "homepage": "https://github.com/ahmad-karimigorji/Quiz-APP#readme",
+  "devDependencies": {
+    "ts-loader": "^9.4.4",
+    "typescript": "^5.1.6",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4"
+  },
+  "dependencies": {
+    "axios": "^1.4.0"
+  }
+}
